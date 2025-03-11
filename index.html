@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AGD Na Miarę - Profesjonalne doradztwo w wyborze sprzętu AGD</title>
+    <style>
+        :root {
+            --primary-color: #5d0c1d;
+            --text-color: #faf4ea;
+            --secondary-color: #f8f8f8;
+            --dark-text: #333;
+            --light-accent: #e6e6e6;
+            --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: var(--secondary-color);
+            color: var(--dark-text);
+            line-height: 1.6;
+        }
+        
+        header {
+            background-color: var(--primary-color);
+            padding: 1rem 0;
+            box-shadow: var(--box-shadow);
+            position: fixed;
+            width: 100%;
+            z-index: 1000;
+        }
+        
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+        
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            color: var(--text-color);
+            font-size: 1.8rem;
+            font-weight: 700;
+            text-decoration: none;
+        }
+        
+        .nav-menu {
+            display: flex;
+            list-style: none;
+        }
+        
+        .nav-menu li {
+            margin-left: 2rem;
+        }
+        
+        .nav-menu a {
+            color: var(--text-color);
+            text-decoration: none;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-menu a:hover {
+            opacity: 0.8;
+        }
+        
+        .hero {
+            background-color: var(--primary-color);
+            color: var(--text-color);
+            padding: 10rem 0 5rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(rgba(93, 12, 29, 0.8), rgba(93, 12, 29, 0.9)), url('/api/placeholder/1200/800') center/cover no-repeat;
+            z-index: 1;
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            max-width: 650px;
+        }
+        
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .btn {
+            display: inline-block;
+            background-color: var(--text-color);
+            color: var(--primary-color);
+            padding: 0.8rem 2rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: var(--box-shadow);
+            border: none;
+            cursor: pointer;
+            font-size: 1.1rem;
+        }
+        
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+        }
+        
+        .section {
+            padding: 5rem 0;
+        }
+        
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            color: var(--primary-color);
+        }
+        
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+        }
+        
+        .about-text h3 {
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            color: var(--primary-color);
+        }
+        
+        .about-image img {
+            width: 100%;
+            border-radius: 10px;
+            box-shadow: var(--box-shadow);
+        }
+        
+        .process {
+            background-color: var(--light-accent);
+        }
+        
+        .process-steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        
+        .step-card {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: var(--box-shadow);
+            text-align: center;
+        }
+        
+        .step-number {
+            display: inline-block;
+            background-color: var(--primary-color);
+            color: var(--text-color);
+            width: 50px;
+            height: 50px;
+            line-height: 50px;
+            border-radius: 50%;
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 1.5rem;
+        }
+        
+        .step-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--primary-color);
+        }
+        
+        .process-description {
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto 3rem;
+        }
+        
+        .pricing {
+            background-color: white;
+        }
+        
+        .pricing-plans {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+        
+        .price-card {
+            background-color: var(--secondary-color);
+            padding: 3rem 2rem;
+            border-radius: 10px;
+            box-shadow: var(--box-shadow);
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        
+        .price-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .price-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            color: var(--primary-color);
+        }
+        
+        .price {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin: 1.5rem 0;
+            color: var(--primary-color);
+        }
+        
+        .price-card ul {
+            list-style: none;
+            margin-bottom: 2rem;
+        }
+        
+        .price-card ul li {
+            margin-bottom: 0.8rem;
+        }
+        
+        .cta {
+            background-color: var(--primary-color);
+            color: var(--text-color);
+            text-align: center;
+            padding: 5rem 0;
+        }
+        
+        .cta h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .cta p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        footer {
+            background-color: var(--primary-color);
+            color: var(--text-color);
+            padding: 3rem 0;
+            text-align: center;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            text-align: left;
+        }
+        
+        .footer-column h3 {
+            font-size: 1.3rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .footer-column ul {
+            list-style: none;
+        }
+        
+        .footer-column ul li {
+            margin-bottom: 0.8rem;
+        }
+        
+        .footer-column a {
+            color: var(--text-color);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        .footer-column a:hover {
+            opacity: 0.8;
+        }
+        
+        .copyright {
+            margin-top: 3rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        @media (max-width: 768px) {
+            .nav-menu {
+                display: none;
+            }
+            
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .about-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .about-image {
+                order: -1;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <header>
+        <div class="container">
+            <nav class="navbar">
+                <a href="#" class="logo">AGD Na Miarę</a>
+                <ul class="nav-menu">
+                    <li><a href="#about">O nas</a></li>
+                    <li><a href="#process">Jak działamy</a></li>
+                    <li><a href="#pricing">Cennik</a></li>
+                    <li><a href="#contact">Kontakt</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1>AGD na miarę - wybierz mądrze!</h1>
+                <p>Masz dość marketingowych sztuczek i nieszczerego doradzania? W sklepach często wciskają sprzęt, który "trzeba sprzedać", zamiast tego, który na prawdę warto kupić. U nas jest inaczej.</p>
+                <p>Nie pracujemy dla producentów czy sieci - naszym celem jest dobranie najlepszej opcji do Twoich potrzeb i budżetu.</p>
+                <p>Zamiast przeklepywać specyfikację, powiemy Ci, co naprawdę ma znaczenie. Potrzebujesz pomocy w wyborze AGD?</p>
+                <a href="#process" class="btn">Sprawdź, jak możemy Ci pomóc!</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="section">
+        <div class="container">
+            <h2 class="section-title">O nas</h2>
+            <div class="about-content">
+                <div class="about-text">
+                    <h3>Dlaczego warto nam zaufać?</h3>
+                    <p>Sprzedając sprzęt, mieliśmy dość nieuczciwych praktyk sprzedażowych i podejścia do doradzania. Sprzedawcy w sklepach często patrzą tylko na prowizję, a nie na potrzeby klienta.</p>
+                    <p>My działamy inaczej - analizujemy, porównujemy i dobieramy najlepsze produkty, które realnie spełniają Twoje oczekiwania.</p>
+                    <p>Nie jesteśmy związani z żadną marką czy siecią handlową - rekomendujemy dzięki temu tylko to, co rzeczywiście warto kupić. Nasza wiedza opiera się na latach doświadczenia i pracy w branży AGD.</p>
+                    <p>Nie wiesz, co wybrać? Chcesz uniknąć przepłacania? Napisz do nas - pomożemy!</p>
+                </div>
+                <div class="about-image">
+                    <img src="/api/placeholder/600/400" alt="Doradztwo AGD">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Process Section -->
+    <section id="process" class="section process">
+        <div class="container">
+            <h2 class="section-title">Jak to działa?</h2>
+            <div class="process-description">
+                <p>100% doradztwa sprzętowego - bez wciskania ubezpieczeń, zalegającego towaru, którego nikt nie chce, zbędnych dodatków i drogich usług.</p>
+            </div>
+            <div class="process-steps">
+                <div class="step-card">
+                    <div class="step-number">1</div>
+                    <h3>Wybierasz pakiet i wypełniasz formularz</h3>
+                    <p>Decydujesz się na odpowiedni dla Ciebie pakiet usług i wypełniasz krótki formularz z informacjami o Twoich potrzebach.</p>
+                </div>
+                <div class="step-card">
+                    <div class="step-number">2</div>
+                    <h3>Otrzymujesz profesjonalną odpowiedź</h3>
+                    <p>W ciągu 24h otrzymujesz odpowiedź zawierającą:</p>
+                    <ul>
+                        <li>Najlepszy sprzęt odpowiadający Twoim potrzebom</li>
+                        <li>Linki do sklepów lub informacje o miejscach zakupu</li>
+                        <li>Informacje o miejscach, gdzie produkt można obejrzeć</li>
+                        <li>Rekomendacje co do cen i promocji</li>
+                    </ul>
+                </div>
+                <div class="step-card">
+                    <div class="step-number">3</div>
+                    <h3>Podejmujesz decyzję</h3>
+                    <p>Wybierasz spośród rekomendowanych opcji - bez wciskania, ściemy i zbędnych rzeczy. Decyzja należy do Ciebie!</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section id="pricing" class="section pricing">
+        <div class="container">
+            <h2 class="section-title">Cennik</h2>
+            <div class="pricing-plans">
+                <div class="price-card">
+                    <h3>Jeden produkt</h3>
+                    <div class="price">25 zł</div>
+                    <ul>
+                        <li>Doradztwo przy wyborze jednego produktu AGD</li>
+                        <li>Odpowiedź w ciągu 24h</li>
+                        <li>Pełne rekomendacje zakupowe</li>
+                    </ul>
+                    <a href="#contact" class="btn">Wybierz pakiet</a>
+                </div>
+                <div class="price-card">
+                    <h3>Trzy produkty</h3>
+                    <div class="price">60 zł</div>
+                    <ul>
+                        <li>Doradztwo przy wyborze trzech produktów AGD</li>
+                        <li>Odpowiedź w ciągu 24h</li>
+                        <li>Pełne rekomendacje zakupowe</li>
+                        <li>20% taniej niż zakup pojedynczy</li>
+                    </ul>
+                    <a href="#contact" class="btn">Wybierz pakiet</a>
+                </div>
+                <div class="price-card">
+                    <h3>Pięć produktów</h3>
+                    <div class="price">100 zł</div>
+                    <ul>
+                        <li>Doradztwo przy wyborze pięciu produktów AGD</li>
+                        <li>Odpowiedź w ciągu 24h</li>
+                        <li>Pełne rekomendacje zakupowe</li>
+                        <li>20% taniej niż zakup pojedynczy</li>
+                    </ul>
+                    <a href="#contact" class="btn">Wybierz pakiet</a>
+                </div>
+                <div class="price-card">
+                    <h3>Pełny zakres</h3>
+                    <div class="price">135 zł</div>
+                    <ul>
+                        <li>Doradztwo dla całego AGD (zazwyczaj 7+ produktów)</li>
+                        <li>Odpowiedź w ciągu 24h</li>
+                        <li>Pełne rekomendacje zakupowe</li>
+                        <li>Najlepsza wartość za produkt</li>
+                    </ul>
+                    <a href="#contact" class="btn">Wybierz pakiet</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section id="contact" class="cta">
+        <div class="container">
+            <h2>Gotowy na mądry wybór?</h2>
+            <p>Skontaktuj się z nami już dziś i przekonaj się, jak wiele można zyskać dzięki niezależnemu doradztwu w wyborze sprzętu AGD.</p>
+            <a href="mailto:kontakt@agdnamiare.pl" class="btn">Napisz do nas</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>AGD Na Miarę</h3>
+                    <p>Profesjonalne doradztwo w wyborze sprzętu AGD dopasowanego do Twoich potrzeb i budżetu.</p>
+                </div>
+                <div class="footer-column">
+                    <h3>Kontakt</h3>
+                    <ul>
+                        <li>Email: kontakt@agdnamiare.pl</li>
+                        <li>Telefon: +48 123 456 789</li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Szybkie linki</h3>
+                    <ul>
+                        <li><a href="#about">O nas</a></li>
+                        <li><a href="#process">Jak działamy</a></li>
+                        <li><a href="#pricing">Cennik</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2025 AGD Na Miarę. Wszelkie prawa zastrzeżone.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+  </html>
