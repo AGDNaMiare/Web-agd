@@ -3,7 +3,44 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AGD Na Miarę - Profesjonalne doradztwo w wyborze sprzętu AGD</title>
+    <title>AGD Na Miarę - Profesjonalne doradztwo w wyborze sprzętu AGD | Niezależne opinie</title>
+    
+    <!-- Metatagi SEO -->
+    <meta name="description" content="Niezależne doradztwo w wyborze sprzętu AGD. Pomożemy dobrać najlepsze urządzenia dopasowane do Twoich potrzeb i budżetu, bez nacisków sprzedażowych.">
+    <meta name="keywords" content="doradztwo AGD, wybór sprzętu AGD, niezależne opinie AGD, najlepsze AGD, pomoc w zakupie AGD">
+    <meta name="author" content="AGD Na Miarę">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://agdnamiare.pl/">
+    <meta property="og:title" content="AGD Na Miarę - Profesjonalne doradztwo w wyborze sprzętu AGD">
+    <meta property="og:description" content="Niezależne doradztwo w wyborze sprzętu AGD. Pomożemy dobrać najlepsze urządzenia dopasowane do Twoich potrzeb i budżetu.">
+    <meta property="og:image" content="https://agdnamiare.pl/Kuchnia1.webp">
+    
+    <!-- Twitter / X -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://agdnamiare.pl/">
+    <meta property="twitter:title" content="AGD Na Miarę - Profesjonalne doradztwo w wyborze sprzętu AGD">
+    <meta property="twitter:description" content="Niezależne doradztwo w wyborze sprzętu AGD. Pomożemy dobrać najlepsze urządzenia dopasowane do Twoich potrzeb i budżetu.">
+    <meta property="twitter:image" content="https://agdnamiare.pl/Kuchnia1.webp">
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://agdnamiare.pl/">
+    
+    <!-- Favicon -->
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    
+    <!-- Google Analytics -->
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-DRS0C13CKY"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-DRS0C13CKY');
+    </script>
+    
     <style>
         :root {
             --primary-color: #5d0c1d;
@@ -91,7 +128,7 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: linear-gradient(rgba(93, 12, 29, 0.8), rgba(93, 12, 29, 0.9)), url('/api/placeholder/1200/800') center/cover no-repeat;
+            background: linear-gradient(rgba(93, 12, 29, 0.8), rgba(93, 12, 29, 0.9)), url('Kuchnia1.webp') center/cover no-repeat;
             z-index: 1;
         }
         
@@ -317,9 +354,38 @@
             border-top: 1px solid rgba(255, 255, 255, 0.2);
         }
         
+        /* Mobile menu */
+        .hamburger {
+            display: none;
+            cursor: pointer;
+        }
+        
         @media (max-width: 768px) {
+            .hamburger {
+                display: block;
+                color: var(--text-color);
+                font-size: 1.5rem;
+            }
+            
             .nav-menu {
-                display: none;
+                position: fixed;
+                left: -100%;
+                top: 70px;
+                flex-direction: column;
+                background-color: var(--primary-color);
+                width: 100%;
+                text-align: center;
+                transition: 0.3s;
+                box-shadow: var(--box-shadow);
+                padding: 2rem 0;
+            }
+            
+            .nav-menu.active {
+                left: 0;
+            }
+            
+            .nav-menu li {
+                margin: 1.5rem 0;
             }
             
             .hero h1 {
@@ -339,6 +405,31 @@
             }
         }
     </style>
+    <!-- Strukturowane dane (Schema.org) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "LocalBusiness",
+      "name": "AGD Na Miarę",
+      "description": "Profesjonalne doradztwo w wyborze sprzętu AGD dopasowanego do potrzeb i budżetu.",
+      "image": "https://agdnamiare.pl/Kuchnia1.webp",
+      "url": "https://agdnamiare.pl",
+      "email": "kontakt@agdnamiare.pl",
+      "telephone": "+48123456789",
+      "priceRange": "25zł - 135zł",
+      "address": {
+        "@type": "PostalAddress",
+        "addressCountry": "PL"
+      },
+      "offers": {
+        "@type": "AggregateOffer",
+        "priceCurrency": "PLN",
+        "lowPrice": "25",
+        "highPrice": "135",
+        "offerCount": "4"
+      }
+    }
+    </script>
 </head>
 <body>
     <!-- Navigation -->
@@ -346,6 +437,7 @@
         <div class="container">
             <nav class="navbar">
                 <a href="#" class="logo">AGD Na Miarę</a>
+                <div class="hamburger">&#9776;</div>
                 <ul class="nav-menu">
                     <li><a href="#about">O nas</a></li>
                     <li><a href="#process">Jak działamy</a></li>
@@ -382,7 +474,7 @@
                     <p>Nie wiesz, co wybrać? Chcesz uniknąć przepłacania? Napisz do nas - pomożemy!</p>
                 </div>
                 <div class="about-image">
-                    <img src="/api/placeholder/600/400" alt="Doradztwo AGD">
+                    <img src="Kuchnia1.webp" alt="Profesjonalne doradztwo przy wyborze sprzętu AGD" width="600" height="400">
                 </div>
             </div>
         </div>
@@ -493,8 +585,8 @@
                 <div class="footer-column">
                     <h3>Kontakt</h3>
                     <ul>
-                        <li>Email: kontakt@agdnamiare.pl</li>
-                        <li>Telefon: +48 123 456 789</li>
+                        <li>Email: <a href="mailto:kontakt@agdnamiare.pl">kontakt@agdnamiare.pl</a></li>
+                        <li>Telefon: <a href="tel:+48123456789">+48 123 456 789</a></li>
                     </ul>
                 </div>
                 <div class="footer-column">
@@ -511,5 +603,24 @@
             </div>
         </div>
     </footer>
+    
+    <!-- Mobile menu script -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const hamburger = document.querySelector('.hamburger');
+            const navMenu = document.querySelector('.nav-menu');
+            
+            hamburger.addEventListener('click', function() {
+                navMenu.classList.toggle('active');
+            });
+            
+            // Close menu when link is clicked
+            document.querySelectorAll('.nav-menu a').forEach(link => {
+                link.addEventListener('click', () => {
+                    navMenu.classList.remove('active');
+                });
+            });
+        });
+    </script>
 </body>
-  </html>
+</html>
