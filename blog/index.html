@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog - AGD Na Miarę</title>
+    <meta name="description" content="Blog o sprzęcie AGD, poradach domowych i najnowszych trendach w wyposażeniu domu.">
+    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="/blog/css/blog.css">
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    <script type="module" src="/blog/js/firebase-config.js"></script>
+    <script type="module" src="/blog/js/firebase-blog.js"></script>
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="container">
+                <div class="logo">
+                    <a href="/">
+                        <img src="/img/logo.svg" alt="AGD Na Miarę">
+                    </a>
+                </div>
+                <div class="nav-toggle" id="navToggle">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+                <ul class="nav-menu" id="navMenu">
+                    <li><a href="/">Strona główna</a></li>
+                    <li><a href="/oferta.html">Oferta</a></li>
+                    <li><a href="/realizacje.html">Realizacje</a></li>
+                    <li><a href="/blog/">Blog</a></li>
+                    <li><a href="/o-nas.html">O nas</a></li>
+                    <li><a href="/kontakt.html">Kontakt</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <main class="blog-content">
+        <div class="container">
+            <div class="blog-header">
+                <h1>Blog AGD</h1>
+                <p>Najnowsze informacje i porady związane z naszymi produktami</p>
+                
+                <div class="blog-filters">
+                    <div class="search-container">
+                        <input type="text" id="search-input" placeholder="Szukaj...">
+                        <button id="search-btn"><i class="fas fa-search"></i></button>
+                    </div>
+                    
+                    <div class="categories">
+                        <span class="category-label">Kategorie:</span>
+                        <div id="categories-list" class="category-tags">
+                            <!-- Kategorie będą wstawiane dynamicznie -->
+                            <div class="category-tag active" data-category="all">Wszystkie</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="posts-container" class="blog-posts">
+                <!-- Tutaj będą wstawiane posty -->
+                <div class="loading-spinner" id="loading-spinner">
+                    <div class="spinner"></div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <img src="/img/logo.svg" alt="AGD Na Miarę">
+                    <p>Kompleksowe rozwiązania AGD dla Twojego domu</p>
+                </div>
+                <div class="footer-links">
+                    <h3>Przydatne linki</h3>
+                    <ul>
+                        <li><a href="/">Strona główna</a></li>
+                        <li><a href="/oferta.html">Oferta</a></li>
+                        <li><a href="/realizacje.html">Realizacje</a></li>
+                        <li><a href="/blog/">Blog</a></li>
+                        <li><a href="/o-nas.html">O nas</a></li>
+                        <li><a href="/kontakt.html">Kontakt</a></li>
+                    </ul>
+                </div>
+                <div class="footer-contact">
+                    <h3>Kontakt</h3>
+                    <p>ul. Przykładowa 123</p>
+                    <p>00-000 Warszawa</p>
+                    <p>Tel: +48 123 456 789</p>
+                    <p>Email: kontakt@agdnamiare.pl</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2023 AGD Na Miarę. Wszelkie prawa zastrzeżone.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script>
+        // Obsługa menu mobilnego
+        document.addEventListener('DOMContentLoaded', function() {
+            const navToggle = document.getElementById('navToggle');
+            const navMenu = document.getElementById('navMenu');
+            
+            if (navToggle && navMenu) {
+                navToggle.addEventListener('click', function() {
+                    navMenu.classList.toggle('active');
+                    navToggle.classList.toggle('active');
+                });
+            }
+            
+            // Inicjalizacja serwisu Firebase
+            const blogService = new FirebaseBlogService();
+            
+            // Elementy DOM
+            const postsContainer = document.getElementById('posts-container');
+            const categoriesList = document.getElementById('categories-list');
+            const searchInput = document.getElementById('search-input');
+            const searchBtn = document.getElementById('search-btn');
+            const loadingSpinner = document.getElementById('loading-spinner');
+            
+            // Aktualnie wybrana kategoria
+            let selectedCategory = 'all';
+            let searchQuery = '';
+            
+            // Funkcja do ładowania postów
+            async function loadPosts() {
+                try {
+                    loadingSpinner.style.display = 'flex';
+                    postsContainer.innerHTML = '';
+                    postsContainer.appendChild(loadingSpinner);
+                    
+                    // Pobierz wszystkie posty
+                    let posts = await blogService.getAllPosts();
+                    
+                    // Sortowanie według daty (od najnowszych)
+                    posts.sort((a, b) => {
+                        const dateA = a.date.toDate ? a.date.toDate() : new Date(a.date);
+                        const dateB = b.date.toDate ? b.date.toDate() : new Date(b.date);
+                        return dateB - dateA;
+                    });
+                    
+                    // Filtruj po kategorii
+                    if (selectedCategory !== 'all') {
+                        posts = posts.filter(post => post.categories.includes(selectedCategory));
+                    }
+                    
+                    // Filtruj po zapytaniu wyszukiwania
+                    if (searchQuery) {
+                        const lowerQuery = searchQuery.toLowerCase();
+                        posts = posts.filter(post => 
+                            post.title.toLowerCase().includes(lowerQuery) || 
+                            post.excerpt.toLowerCase().includes(lowerQuery) || 
+                            post.content.toLowerCase().includes(lowerQuery)
+                        );
+                    }
+                    
+                    // Wyświetl posty
+                    loadingSpinner.style.display = 'none';
+                    
+                    if (posts.length === 0) {
+                        postsContainer.innerHTML = `
+                            <div class="no-results">
+                                <h2>Nie znaleziono postów</h2>
+                                <p>Spróbuj zmienić kryteria wyszukiwania lub kategorię</p>
+                            </div>
+                        `;
+                        return;
+                    }
+                    
+                    posts.forEach(post => displayPost(post));
+                } catch (error) {
+                    console.error('Błąd ładowania postów:', error);
+                    loadingSpinner.style.display = 'none';
+                    postsContainer.innerHTML = `
+                        <div class="error-message">
+                            <h2>Przepraszamy, wystąpił błąd</h2>
+                            <p>Nie udało się załadować postów. Spróbuj odświeżyć stronę.</p>
+                        </div>
+                    `;
+                }
+            }
+            
+            // Funkcja do wyświetlania posta
+            function displayPost(post) {
+                const postDate = post.date.toDate ? post.date.toDate() : new Date(post.date);
+                const formattedDate = postDate.toLocaleDateString('pl-PL', {
+                    day: 'numeric',
+                    month: 'long',
+                    year: 'numeric'
+                });
+                
+                const postElement = document.createElement('article');
+                postElement.className = 'blog-post';
+                
+                const categoriesHTML = post.categories.map(category => 
+                    `<span class="post-category">${category}</span>`
+                ).join('');
+                
+                postElement.innerHTML = `
+                    <div class="post-image">
+                        <img src="${post.image || '/blog/images/default.jpg'}" alt="${post.title}">
+                    </div>
+                    <div class="post-content">
+                        <h2 class="post-title">
+                            <a href="/blog/post.html?id=${post.id}">${post.title}</a>
+                        </h2>
+                        <div class="post-meta">
+                            <span class="post-date"><i class="far fa-calendar"></i> ${formattedDate}</span>
+                            <span class="post-author"><i class="far fa-user"></i> ${post.author}</span>
+                        </div>
+                        <div class="post-categories">
+                            ${categoriesHTML}
+                        </div>
+                        <p class="post-excerpt">${post.excerpt}</p>
+                        <a href="/blog/post.html?id=${post.id}" class="read-more">Czytaj więcej</a>
+                    </div>
+                `;
+                
+                postsContainer.appendChild(postElement);
+            }
+            
+            // Ładowanie kategorii
+            async function loadCategories() {
+                try {
+                    const categories = await blogService.getAllCategories();
+                    
+                    // Zachowaj przycisk "Wszystkie"
+                    categoriesList.innerHTML = `
+                        <div class="category-tag active" data-category="all">Wszystkie</div>
+                    `;
+                    
+                    // Dodaj pozostałe kategorie
+                    categories.forEach(category => {
+                        const categoryElement = document.createElement('div');
+                        categoryElement.className = 'category-tag';
+                        categoryElement.setAttribute('data-category', category);
+                        categoryElement.textContent = category;
+                        
+                        categoriesList.appendChild(categoryElement);
+                    });
+                    
+                    // Obsługa kliknięć na kategorie
+                    document.querySelectorAll('.category-tag').forEach(tag => {
+                        tag.addEventListener('click', function() {
+                            // Usuń klasę active ze wszystkich tagów
+                            document.querySelectorAll('.category-tag').forEach(t => {
+                                t.classList.remove('active');
+                            });
+                            
+                            // Dodaj klasę active do klikniętego tagu
+                            this.classList.add('active');
+                            
+                            // Ustaw wybraną kategorię i załaduj posty
+                            selectedCategory = this.getAttribute('data-category');
+                            loadPosts();
+                        });
+                    });
+                } catch (error) {
+                    console.error('Błąd ładowania kategorii:', error);
+                }
+            }
+            
+            // Obsługa wyszukiwania
+            searchBtn.addEventListener('click', function() {
+                searchQuery = searchInput.value.trim();
+                loadPosts();
+            });
+            
+            searchInput.addEventListener('keyup', function(event) {
+                if (event.key === 'Enter') {
+                    searchQuery = searchInput.value.trim();
+                    loadPosts();
+                }
+            });
+            
+            // Załaduj dane przy ładowaniu strony
+            loadCategories();
+            loadPosts();
+        });
+    </script>
+</body>
+</html>
